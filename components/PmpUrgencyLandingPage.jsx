@@ -67,6 +67,12 @@ const stats = [
   ["May 30", "Next Cohort Start"],
 ];
 
+const heroRuleHighlights = [
+  ["Business Environment", "8%", "26%", "3x weight", "red"],
+  ["Question Types", "Current format", "Case blocks + graphics", "Harder", "red"],
+  ["New Content", "Core PMP scope", "AI + ESG topics", "Added", "gold"],
+];
+
 const faqItems = [
   [
     "What exactly is changing about the PMP exam on July 9?",
@@ -278,24 +284,80 @@ export default function PmpUrgencyLandingPage() {
       <main>
         <section className="hero">
           <div className="wrap">
-            <div className="countdown-hero anim-fade-down anim-d1">
-              <div className="countdown-label">
-                <small>Exam change countdown</small>
-                The PMP exam changes in:
-              </div>
-              <CountdownBlocks countdown={countdown} variant="hero" />
-            </div>
+            <div className="hero-layout">
+              <div className="hero-copy">
+                <div className="countdown-hero anim-fade-down anim-d1">
+                  <div className="countdown-label">
+                    <small>Exam change countdown</small>
+                    The PMP exam changes in:
+                  </div>
+                  <CountdownBlocks countdown={countdown} variant="hero" />
+                </div>
 
-            <h1 className="anim-fade-up anim-d2">
-              The PMP exam changes <em>July 9</em>.
-              <br />
-              Get certified before it does.
-            </h1>
-            <p className="lead anim-fade-up anim-d3">
-              New domains. New AI content. Harder question types. The smartest move is to pass on the
-              current exam format - the one with more study resources, a proven structure, and a format
-              you can prepare for right now.
-            </p>
+                <h1 className="anim-fade-up anim-d2">
+                  The PMP exam changes <em>July 9</em>.
+                  <br />
+                  Get certified before it does.
+                </h1>
+                <p className="lead anim-fade-up anim-d3">
+                  New domains. New AI content. Harder question types. The smartest move is to pass on the
+                  current exam format - the one with more study resources, a proven structure, and a format
+                  you can prepare for right now.
+                </p>
+
+                <div className="cta-row anim-fade-up anim-d4">
+                  <button type="button" className="btn btn-gold" onClick={openModal}>
+                    Reserve My Seat - May 30 Cohort &rarr;
+                  </button>
+                  <a href="#changes" className="btn btn-outline">
+                    See What&apos;s Changing
+                  </a>
+                </div>
+              </div>
+
+              <aside className="hero-change-board anim-fade-up anim-d4" aria-label="PMP exam change highlights">
+                <div className="hero-board-label">Rulebook Update</div>
+                <h3 className="hero-board-title">What changes after July 9</h3>
+                <p className="hero-board-copy">
+                  PMI is rolling out a broader, less familiar exam with new weighting, new content, and
+                  new item styles.
+                </p>
+
+                <div className="hero-board-compare">
+                  <div className="hero-stage">
+                    <span className="hero-stage-label">Until July 8</span>
+                    <strong>Current PMP Rules</strong>
+                    <span>180 questions · known prep resources</span>
+                  </div>
+                  <div className="hero-stage-arrow" aria-hidden="true">
+                    &rarr;
+                  </div>
+                  <div className="hero-stage hero-stage-new">
+                    <span className="hero-stage-label">From July 9</span>
+                    <strong>New Rulebook</strong>
+                    <span>185 questions · AI, ESG, case and graphic items</span>
+                  </div>
+                </div>
+
+                <div className="hero-rules-stack">
+                  {heroRuleHighlights.map(([label, before, after, chip, tone]) => (
+                    <div className="hero-rule-row" key={label}>
+                      <div className="hero-rule-copy">
+                        <div className="hero-rule-label">{label}</div>
+                        <div className="hero-rule-shift">
+                          <span>{before}</span>
+                          <span className="hero-rule-arrow">&rarr;</span>
+                          <strong>{after}</strong>
+                        </div>
+                      </div>
+                      <span className={`hero-rule-chip hero-rule-chip-${tone}`}>{chip}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="hero-board-warning">Same PMP credential. Tougher exam path.</div>
+              </aside>
+            </div>
 
             <div className="guarantee-strip">
               <div className="guarantee-strip-inner">
@@ -319,15 +381,6 @@ export default function PmpUrgencyLandingPage() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="cta-row anim-fade-up anim-d4">
-              <button type="button" className="btn btn-gold" onClick={openModal}>
-                Reserve My Seat - May 30 Cohort &rarr;
-              </button>
-              <a href="#changes" className="btn btn-outline">
-                See What&apos;s Changing
-              </a>
             </div>
 
             <div className="trust-bar anim-fade-up anim-d5">
