@@ -145,11 +145,8 @@ function CountdownBlocks({ countdown, variant = "hero" }) {
 
 export default function PmpUrgencyLandingPage() {
   const [countdown, setCountdown] = useState(getCountdownState);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [showStickyBar, setShowStickyBar] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => setCountdown(getCountdownState()), 1000);
@@ -162,25 +159,6 @@ export default function PmpUrgencyLandingPage() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    if (!isModalOpen) {
-      document.body.style.overflow = "";
-      return undefined;
-    }
-
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") setIsModalOpen(false);
-    };
-
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [isModalOpen]);
 
   useEffect(() => {
     const revealItems = document.querySelectorAll(".reveal");
@@ -206,22 +184,6 @@ export default function PmpUrgencyLandingPage() {
     revealItems.forEach((item) => observer.observe(item));
     return () => observer.disconnect();
   }, []);
-
-  const openModal = () => {
-    setIsSubmitting(false);
-    setIsSubmitted(false);
-    setIsModalOpen(true);
-  };
-  const closeModal = () => setIsModalOpen(false);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    window.setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1200);
-  };
 
   return (
     <>
@@ -274,9 +236,9 @@ export default function PmpUrgencyLandingPage() {
               </span>
               (647) 620-9490
             </a>
-            <button type="button" className="nav-consult" onClick={openModal}>
-              Free Consultation
-            </button>
+            <a href="/contact" className="nav-consult">
+              Book Consultation
+            </a>
           </div>
         </div>
       </nav>
@@ -306,9 +268,9 @@ export default function PmpUrgencyLandingPage() {
                 </p>
 
                 <div className="cta-row anim-fade-up anim-d4">
-                  <button type="button" className="btn btn-gold" onClick={openModal}>
-                    Reserve My Seat - May 30 Cohort &rarr;
-                  </button>
+                  <a href="/contact" className="btn btn-gold">
+                    Book Consultation &rarr;
+                  </a>
                   <a href="#changes" className="btn btn-outline">
                     See What&apos;s Changing
                   </a>
@@ -679,20 +641,20 @@ export default function PmpUrgencyLandingPage() {
 
       <section className="final-cta">
         <div className="wrap">
-          <span className="section-num">07 / Reserve your seat</span>
-          <h2>The exam changes in:</h2>
+          <span className="section-num">07 / Contact Education Edge</span>
+          <h2>Use the dedicated contact page to reach the team.</h2>
 
           <CountdownBlocks countdown={countdown} variant="final" />
 
           <p>
-            Stop waiting for a harder exam. The May 30 cohort gives you a clear runway to prepare and
-            pass on the current format, backed by a 100% money-back guarantee.
+            The live contact form now lives on its own standalone Education Edge page so the inquiry
+            experience is cleaner, more focused, and easier to share with campaign traffic.
           </p>
 
           <div className="cta-row cta-row-center">
-            <button type="button" className="btn btn-gold" onClick={openModal}>
-              Reserve My Seat - May 30 Cohort &rarr;
-            </button>
+            <a href="/contact" className="btn btn-gold">
+              Book Consultation &rarr;
+            </a>
             <a href="tel:6476209490" className="btn btn-outline">
               Call (647) 620-9490
             </a>
@@ -723,84 +685,10 @@ export default function PmpUrgencyLandingPage() {
         </div>
       </footer>
 
-      <div
-        className={`modal-overlay${isModalOpen ? " active" : ""}`}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) closeModal();
-        }}
-        aria-hidden={!isModalOpen}
-      >
-        <div className="modal" role="dialog" aria-modal="true" aria-labelledby="reserve-seat-title">
-          <button type="button" className="modal-close" onClick={closeModal} aria-label="Close dialog">
-            &times;
-          </button>
-
-          {!isSubmitted ? (
-            <>
-              <h3 id="reserve-seat-title">Reserve Your Seat</h3>
-              <p className="modal-sub">May 30 cohort - limited seats. Pass on the current exam format.</p>
-              <form onSubmit={handleSubmit}>
-                <div className="fg-row">
-                  <div className="fg">
-                    <label htmlFor="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="John" required />
-                  </div>
-                  <div className="fg">
-                    <label htmlFor="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="Smith" required />
-                  </div>
-                </div>
-
-                <div className="fg">
-                  <label htmlFor="email">Email Address</label>
-                  <input type="email" id="email" name="email" placeholder="john@company.com" required />
-                </div>
-
-                <div className="fg">
-                  <label htmlFor="phone">
-                    Phone Number <span className="optional-copy">(optional)</span>
-                  </label>
-                  <input type="tel" id="phone" name="phone" placeholder="(647) 000-0000" />
-                </div>
-
-                <div className="fg">
-                  <label htmlFor="timeline">When do you plan to take the PMP exam?</label>
-                  <select id="timeline" name="timeline" defaultValue="" required>
-                    <option value="" disabled>
-                      Select a timeframe
-                    </option>
-                    <option value="before-july-9">Before July 9 (current exam)</option>
-                    <option value="within-3-months">Within 3 months</option>
-                    <option value="3-6-months">3-6 months</option>
-                    <option value="not-sure">Not sure yet</option>
-                  </select>
-                </div>
-
-                <button type="submit" className="form-btn" disabled={isSubmitting}>
-                  {isSubmitting ? "Reserving..." : "Reserve My Seat ->"}
-                </button>
-                <p className="form-note">Free consultation included. No payment required to reserve.</p>
-              </form>
-            </>
-          ) : (
-            <div className="modal-success">
-              <h3 id="reserve-seat-title">You&apos;re in.</h3>
-              <p className="modal-sub">
-                We&apos;ll reach out within 24 hours with consultation details and next steps for the May
-                30 cohort.
-              </p>
-              <button type="button" className="btn btn-gold btn-block" onClick={closeModal}>
-                Close
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
       <div className={`sticky-bar${showStickyBar ? " is-visible" : ""}`}>
-        <button type="button" className="btn btn-gold btn-block" onClick={openModal}>
-          Reserve My Seat - May 30 &rarr;
-        </button>
+        <a href="/contact" className="btn btn-gold btn-block">
+          Book Consultation &rarr;
+        </a>
       </div>
     </>
   );
